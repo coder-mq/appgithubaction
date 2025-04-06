@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src  # ✅ Let Python find the src/ module
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -28,6 +31,4 @@ jobs:
       run: flake8 src tests
 
     - name: Run tests with pytest
-      run: |
-        export PYTHONPATH=src
-        pytest tests
+      run: pytest tests
