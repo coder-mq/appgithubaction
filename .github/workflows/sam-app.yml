@@ -25,7 +25,9 @@ jobs:
         pip install pytest flake8
 
     - name: Lint with flake8
-      run: flake8 src tests  # ✅ Only your source and test files
+      run: flake8 src tests
 
     - name: Run tests with pytest
-      run: pytest tests  # ✅ Point directly to the folder
+      run: |
+        export PYTHONPATH=src
+        pytest tests
