@@ -31,4 +31,4 @@ jobs:
         run: flake8 src tests
 
       - name: Run Pytest on test folder
-        run: pytest tests/
+        run: pytest 
