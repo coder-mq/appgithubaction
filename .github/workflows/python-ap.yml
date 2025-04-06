@@ -1,0 +1,42 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+##Key Value Pairs
+name: Python application #name of the workflow 
+
+##Trigger the workflow on any push to the main branch or pull request to the main branch
+##Inroder to trigger workflow we need to define some events --push, pull, delete, merge based on this we will trigger a workflow
+#Events : with particular keyword: 
+on:
+    ##Inside the event this push is specifcally my event-ic
+  push: ##Sepcif
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+       # Run flake8 only on project files
+       flake8 src tests --count --select=E9,F63,F7,F82 --show-source --statistics
+       flake8 src tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        pytest
